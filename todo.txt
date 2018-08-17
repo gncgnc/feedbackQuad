@@ -1,0 +1,10 @@
+encapsulate, maybe git?
+   translation and rotation in 3D
+   PeasyCam ?!? 
+post process fedback image
+    feedback causes blur
+    iterated application of internal processes gives rise to feedback character
+    internal process is averaging of pixels -> blurring 
+    maybe sharpen image and see results 
+    use postprocessing lib
+
