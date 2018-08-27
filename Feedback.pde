@@ -9,6 +9,9 @@ class Feedback {
 	PImage prev;
 	PApplet papplet;
 
+	PShader sharpen;
+	PShader blur;
+
 	public Feedback (Capture cam, PApplet papplet) {
 		this.s = createShape();
 		this.cam = cam;
@@ -20,6 +23,7 @@ class Feedback {
 		papplet.textureMode(NORMAL);
 		papplet.textureWrap(REPEAT);
 		makeQuad();
+		loadShaders();
 	}
 
 	public Feedback(PApplet papplet) {
@@ -34,8 +38,13 @@ class Feedback {
 		papplet.textureMode(NORMAL);
 		papplet.textureWrap(REPEAT);
 		makeQuad();
+		loadShaders();
 	}
 
+	private void loadShaders() {
+		sharpen = loadShader("sharpen.frag");
+		blur = loadShader("blur.frag");
+	}
 
 	public void update() {
 		if (cam.available()) {
@@ -55,6 +64,11 @@ class Feedback {
 		scale(sc);
 		shape(s);	
 		popMatrix();
+
+		filter(blur);
+		filter(blur);
+		filter(sharpen);
+		filter(blur);
 
 		prev = papplet.get();
 		
