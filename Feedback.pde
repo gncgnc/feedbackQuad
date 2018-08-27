@@ -12,6 +12,8 @@ class Feedback {
 	PShader sharpen;
 	PShader blur;
 
+	float margin = 0.1;
+
 	public Feedback (Capture cam, PApplet papplet) {
 		this.s = createShape();
 		this.cam = cam;
@@ -56,7 +58,7 @@ class Feedback {
 		image(cam, 0, 0, 1f*width*cam.width/cam.height, height);			
 		popMatrix();
 
-		float sc = map(mouseX,0,width,0.9,0.995);
+		float sc = map(mouseX,0,width,0.9,1.005);
 		float rot = map(mouseY, 0, height, -TAU/8, TAU/8);		
 
 		pushMatrix();
@@ -72,7 +74,7 @@ class Feedback {
 
 		prev = papplet.get();
 		
-		makeQuad();
+		makeQuad(margin);
 	}
 
 	void makeQuad() {
@@ -84,6 +86,28 @@ class Feedback {
 		s.vertex(+w, -w, 0, 1f,-1f);
 		s.vertex(+w, +w, 0, 1f, 0f);
 		s.vertex(-w, +w, 0, 0f, 0f);
+		s.endShape();
+	}
+
+	void makeQuad(float margin) {
+		float w = width*(0.5 - margin);
+		float m = margin;
+
+		s = createShape();
+		s.beginShape(QUAD);
+		// two ways to do it:
+		// s.texture(prev.get(
+		// 	(int) (prev.width*margin), 			//x
+		// 	(int) (prev.height*margin), 		//y
+		// 	(int) (prev.width*(1-2*margin)),	//w
+		// 	(int) (prev.height*(1-2*margin))	//h
+		// 	)
+		// );
+		s.texture(prev);
+		s.vertex(-w, -w, 0, m,m-1f);
+		s.vertex(+w, -w, 0, 1f-m,m-1f);
+		s.vertex(+w, +w, 0, 1f-m, -m);
+		s.vertex(-w, +w, 0, m, -m);
 		s.endShape();
 	}
 }
