@@ -37,8 +37,7 @@ void main(void) {
 
   vec4 sum = 0.25 * col4 
             +  0.125 * (col1 + col3 + col5 + col7) 
-            + 0.0625 * (col0 + col2 + col6 + col8); 
-            // + 0.0625 * (col0 + col2 + col4 + col8);  // <--- spot the error!!! 
+            + 0.0625 * (col0 + col2 + col4 + col8);  // <--- spot the error!!! 
                                                         // beautiful results 
   gl_FragColor = vec4(sum.rgb, 1.0) * vertColor;
 }

@@ -1,10 +1,47 @@
-encapsulate, maybe git?
-   translation and rotation in 3D
-   PeasyCam ?!? 
+encapsulate
+	input transformations (somehow)
+	keep a transformation matrix internally
+		use applyMatrix? (it exists but says it's slow in p5 source)
+* try feedback in shader
+	new git branch
+	can do noise offsets and such
+	will be interesting with feedback  
 post process fedback image
+	* try postprocessing lib?
     feedback causes blur
     iterated application of internal processes gives rise to feedback character
     internal process is averaging of pixels -> blurring 
-    maybe sharpen image and see results 
-    use postprocessing lib
+    x maybe sharpen image and see results 
+	    results
+	    	blur sharpen cycle produces ~~interesting~~ results
+	    	buggy blur shader is beautiful with infinite zoom
+interaction!
+	optical flow 
+		opencv? easy avg value
+			https://github.com/atduskgreg/opencv-processing/blob/master/examples/OpticalFlow/OpticalFlow.pde
+		pixelflow  
+	knobs for rotation & scale
+		use arduino and Serial lib
+	audioreactive?
+		beat reduces scale
+		rotation should be fairly low freq
+	OSC with an android device?
+		could be the simplest solution
+	FaceOSC
+		face orientation -> rotation
+		mouth height -> scale 
+		would be very nice, but hogs video input :(
+		need syphon (a mac)
+	*** different idea ***
+		* use frame diff and put it on top of feedback
+		black is transparent -> does not obscure image 
+		this will allow direct manipulation of fedback image
+		like shining a light on the screen 
+translation and rotation in 3D
+	PeasyCam ?!? 
+		annoying internal transformations 
+	can just add a rotateY control; 2 degs of rot freedom 
 
+////////////////// DONE //////////////////
+x add margin for better interaction
+x DOCUMENT results!
