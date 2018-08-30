@@ -69,7 +69,6 @@ class Feedback {
 		float sc = map(mouseX,0,width,0.707,1.005);
 		float rot = map(mouseY, 0, height, -TAU/8, TAU/8);		
 
-
 		pushMatrix();
 		rotate(rot);
 		scale(sc);
@@ -77,7 +76,6 @@ class Feedback {
 		shape(s);	
 		popMatrix();
 
-		// TODO try different filters, seperate this part from update
 		if (filtersOn) {
 			applyFilters();
 		}
@@ -131,7 +129,7 @@ class Feedback {
 
 		// OR
 		// uses texture sampling, which we are already doing 
-		s.texture(prev);
+		s.texture(prev); // <-- could be bottleneck
 		s.vertex(-w, -w, 0, m	, m-1f	);
 		s.vertex(+w, -w, 0, 1f-m, m-1f	);
 		s.vertex(+w, +w, 0, 1f-m, -m	);

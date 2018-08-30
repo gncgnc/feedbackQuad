@@ -1,9 +1,18 @@
+output
+	*** try VideoExport lib	
+		video output works for IG (set FPS to 30)
+		put on drive and download to upload to IG
 encapsulate
+	*** just store vals for rot, scale, translation
+	3d transformation? 
+		can just add a rotateY
 	input transformations (somehow)
 	keep a transformation matrix internally
 		use applyMatrix? (it exists but says it's slow in p5 source)
 * try feedback in shader
-	new git branch
+	- can result in speedup 
+	-  we won't be sending a texture to GPU each frame 
+	- new git branch
 	can do noise offsets and such
 	will be interesting with feedback  
 post process fedback image
@@ -28,6 +37,7 @@ interaction!
 	OSC with an android device?
 		could be the simplest solution
 	FaceOSC
+		* implement anyway, in case you use external video
 		face orientation -> rotation
 		mouth height -> scale 
 		would be very nice, but hogs video input :(
@@ -37,11 +47,7 @@ interaction!
 		black is transparent -> does not obscure image 
 		this will allow direct manipulation of fedback image
 		like shining a light on the screen 
-translation and rotation in 3D
-	PeasyCam ?!? 
-		annoying internal transformations 
-	can just add a rotateY control; 2 degs of rot freedom 
 
 ////////////////// DONE //////////////////
-x add margin for better interaction
-x DOCUMENT results!
+	x add margin for better interaction
+	x DOCUMENT results!
