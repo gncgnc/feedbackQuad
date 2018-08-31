@@ -9,15 +9,23 @@ class Feedback {
 	PImage prev;
 	PApplet papplet;
 
+	// SHADERS
 	PShader sharpen;
 	PShader blur;
 	PShader gblur;
 
-	float margin = 0.1;
 
+	// TRANSFORM PARAMS
+	float scale = 0.9;
+	float rotation = 0;
+	PVector translation = new PVector();
+
+	// OPTIONS
 	boolean filtersOn = true;
 	boolean marginOn = true; 
 	boolean glitchyBlurOn = true;
+
+	float margin = 0.1;
 
 	public Feedback (Capture cam, PApplet papplet) {
 		this.s = createShape();
@@ -65,14 +73,11 @@ class Feedback {
 		image(cam, 0, 0, 1f*width*cam.width/cam.height, height);			
 		popMatrix();
 
-		// TODO seperate transform from update
-		float sc = map(mouseX,0,width,0.707,1.005);
-		float rot = map(mouseY, 0, height, -TAU/8, TAU/8);		
-
+		// transforms are input from outside class
 		pushMatrix();
-		rotate(rot);
-		scale(sc);
-		// TODO translate
+		rotate(this.rotation);
+		scale(this.scale);
+		translate(this.translation.x, this.translation.y, this.translation.z);
 		shape(s);	
 		popMatrix();
 

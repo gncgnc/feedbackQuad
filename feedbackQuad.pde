@@ -34,7 +34,11 @@ void draw(){
 	translate(width*0.5, height*0.5);
 	fb.update();
 	popMatrix();
-  
+  	
+  	// input transformations 
+  	fb.scale = lerp(fb.scale, map(mouseX,0,width,0.707,1.005), 0.1);
+  	fb.rotation =  lerp(fb.rotation, map(mouseY, 0, height, -TAU/8, TAU/8), 0.1);	
+  	// fb.translation = new PVector(mouseX-width*0.5, mouseY-height*0.5).mult(0.1);
   
   String titleText = String.format(getClass().getName()+ "%6.2f fps", frameRate);
   if (recording) {

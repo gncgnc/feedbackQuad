@@ -1,9 +1,12 @@
+current.txt
+
 output
-	*** try VideoExport lib	
+	need stills for Digilogue documentation 
+	x try VideoExport lib	
 		video output works for IG (set FPS to 30)
 		put on drive and download to upload to IG
 encapsulate
-	*** just store vals for rot, scale, translation
+	x just store vals for rot, scale, translation
 	3d transformation? 
 		can just add a rotateY
 	input transformations (somehow)
@@ -16,14 +19,11 @@ encapsulate
 	can do noise offsets and such
 	will be interesting with feedback  
 post process fedback image
+	* change kernel values on the fly?
 	* try postprocessing lib?
     feedback causes blur
     iterated application of internal processes gives rise to feedback character
     internal process is averaging of pixels -> blurring 
-    x maybe sharpen image and see results 
-	    results
-	    	blur sharpen cycle produces ~~interesting~~ results
-	    	buggy blur shader is beautiful with infinite zoom
 interaction!
 	optical flow 
 		opencv? easy avg value
@@ -47,7 +47,18 @@ interaction!
 		black is transparent -> does not obscure image 
 		this will allow direct manipulation of fedback image
 		like shining a light on the screen 
+* "presets"
+	parameter values that produce interesting visuals
+	preset parameter animations
+	could have audio trigger
+	less interesting interaction
+		webcam is also interaction
+		so maybe its not so bad
 
 ////////////////// DONE //////////////////
 	x add margin for better interaction
 	x DOCUMENT results!
+	x maybe sharpen image and see results 
+		results
+		blur sharpen cycle produces ~~interesting~~ results
+		buggy blur shader is beautiful with infinite zoom
