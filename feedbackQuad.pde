@@ -4,13 +4,15 @@ import java.text.SimpleDateFormat;
 
 int numFrames = 30;
 boolean recording = false;
+boolean debug = false;
 
 float time = 0;
 
 Feedback fb;
 
 VideoExport videoExport;
-int vidfps = 15;
+int vidfps = 30;
+int recordfps = 15;
 int vidFrameNum = 0;
 
 void setup(){
@@ -28,6 +30,7 @@ void setup(){
 }
 
 void draw(){
+	if (debug) println("---------------------------------");
 	time = 1f*(frameCount)/numFrames;
 
 	pushMatrix();
@@ -78,14 +81,18 @@ void keyPressed() {
 			if (!recording)  {
 				videoExport.startMovie();
 				recording = true;
-        frameRate(vidfps);
+        		frameRate(recordfps);
 			} else {
 				videoExport.endMovie();
 				videoExport = new VideoExport(this, "feedback"+getTimestamp()+".mp4");
 				recording = false;	
-        frameRate(30);
-        vidFrameNum = 0;
+		        frameRate(30);
+		        vidFrameNum = 0;
 			}
+		break;
+
+		case 'd': case 'D':
+			debug = !debug;
 		break;
 
     default:
@@ -96,3 +103,9 @@ String getTimestamp() {
   SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
   return df.format(new Date()); 
 }
+
+void captureEvent(Capture camera) {
+	float start = millis();
+	camera.read();
+	if (debug) println("captureEvent() --> "+(millis() - start)+"ms");
+}  

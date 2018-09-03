@@ -1,7 +1,4 @@
 import processing.video.*;
-import ch.bildspur.postfx.builder.*;
-import ch.bildspur.postfx.pass.*;
-import ch.bildspur.postfx.*;
 
 class Feedback {
 	PShape s;
@@ -45,9 +42,10 @@ class Feedback {
 	    this.papplet = papplet;
 
 		String[] cameras = Capture.list();
-		cam = new Capture(papplet,cameras[1]);
-	    cam.start();
-	    this.prev = papplet.get();
+		cam = new Capture(papplet,cameras[13]); // 1
+		cam.start();	
+		this.prev = papplet.get();
+		printArray(cameras);
 
 		papplet.imageMode(CENTER);
 		papplet.textureMode(NORMAL);
@@ -63,10 +61,6 @@ class Feedback {
 	}
 
 	public void update() {
-		if (cam.available()) {
-			cam.read();
-		}
-
 		// draw image in background
 		pushMatrix();
 		scale(-1.0, 1.0); // invert to make mirror
@@ -85,8 +79,10 @@ class Feedback {
 			applyFilters();
 		}
 
+		float start = millis();
 		prev = papplet.get();
-		
+		if (debug) println("papplet.get() --> "+(millis() - start)+"ms");
+
 		if (marginOn) {
 			makeQuad(margin);			
 		} else {
@@ -95,17 +91,19 @@ class Feedback {
 	}
 
 	void applyFilters() {
+		float start = millis();
 		if (glitchyBlurOn) {
-			filter(gblur);
-			filter(gblur);
+			//filter(gblur);
+			// filter(gblur);
 			filter(sharpen);
 			filter(gblur);			
 		} else  {			
-			filter(blur);
-			filter(blur);
+			//filter(blur);
+			// filter(blur);
 			filter(sharpen);
 			filter(blur);
 		}
+		if (debug) println("applyFilters() --> "+(millis() - start)+"ms");
 	}
 
 	void makeQuad() {
@@ -113,6 +111,8 @@ class Feedback {
 	}
 
 	void makeQuad(float margin) {
+		float start = millis();
+
 		float w = width*(0.5 - margin);
 		float m = margin;
 
@@ -140,5 +140,7 @@ class Feedback {
 		s.vertex(+w, +w, 0, 1f-m, -m	);
 		s.vertex(-w, +w, 0, m	, -m 	);
 		s.endShape();
+
+		if (debug) println("makeQuad() --> "+(millis() - start)+"ms");
 	}
 }
