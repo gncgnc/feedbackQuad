@@ -95,6 +95,14 @@ void keyPressed() {
 			debug = !debug;
 		break;
 
+		// case 'x': case 'X':
+		// 	fb.sharpenAmount+=0.1;
+		//     println(fb.sharpenAmount);
+		// break;
+		// case 'z': case 'Z':
+		// 	fb.sharpenAmount-=0.1;
+		//     println(fb.sharpenAmount);
+		// break;
     default:
 	}
 }

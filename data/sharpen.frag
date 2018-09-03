@@ -7,6 +7,7 @@ precision mediump int;
 
 uniform sampler2D texture;
 uniform vec2 texOffset;
+uniform float amount;
 
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
@@ -28,6 +29,6 @@ void main(void) {
   vec4 col7 = texture2D(texture, tc7);
 
   // TODO try full laplacian kernel? 
-  vec4 sum = 5.0 * col4 - (col1 + col3 + col5 + col7); 
+  vec4 sum = 1.0 * col4 + amount * (4.0 * col4 - (col1 + col3 + col5 + col7)); 
   gl_FragColor = vec4(sum.rgb, 1.0) * vertColor;
 }

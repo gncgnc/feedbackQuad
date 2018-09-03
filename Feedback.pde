@@ -11,6 +11,7 @@ class Feedback {
 	PShader blur;
 	PShader gblur;
 
+	float sharpenAmount = 0.5;
 
 	// TRANSFORM PARAMS
 	float scale = 0.9;
@@ -58,6 +59,8 @@ class Feedback {
 		sharpen = loadShader("sharpen.frag");
 		blur = loadShader("blur.frag");
 		gblur = loadShader("gblur.frag");
+
+		sharpen.set("amount", sharpenAmount);
 	}
 
 	public void update() {
@@ -92,14 +95,11 @@ class Feedback {
 
 	void applyFilters() {
 		float start = millis();
+		// sharpen.set("amount",sharpenAmount);
 		if (glitchyBlurOn) {
-			//filter(gblur);
-			// filter(gblur);
 			filter(sharpen);
 			filter(gblur);			
 		} else  {			
-			//filter(blur);
-			// filter(blur);
 			filter(sharpen);
 			filter(blur);
 		}
