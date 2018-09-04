@@ -18,12 +18,17 @@ class Feedback {
 	float rotation = 0;
 	PVector translation = new PVector();
 
+	float targetRotation;
+	float targetScale;
+	float targetTranslation;
+
 	// OPTIONS
 	boolean filtersOn = true;
 	boolean marginOn = true; 
 	boolean glitchyBlurOn = true;
 
 	float margin = 0.1;
+	float controlTightness = 0.1;
 
 	public Feedback (Capture cam, PApplet papplet) {
 		this.s = createShape();
@@ -64,6 +69,9 @@ class Feedback {
 	}
 
 	public void update() {
+		pushMatrix();
+		translate(width*0.5, height*0.5);
+
 		// draw image in background
 		pushMatrix();
 		scale(-1.0, 1.0); // invert to make mirror
@@ -71,6 +79,8 @@ class Feedback {
 		popMatrix();
 
 		// transforms are input from outside class
+		updateTransforms();
+
 		pushMatrix();
 		rotate(this.rotation);
 		scale(this.scale);
@@ -91,6 +101,8 @@ class Feedback {
 		} else {
 			makeQuad();
 		}
+		
+		popMatrix();
 	}
 
 	void applyFilters() {
@@ -142,5 +154,23 @@ class Feedback {
 		s.endShape();
 
 		if (debug) println("makeQuad() --> "+(millis() - start)+"ms");
+	}
+
+	public void setRotation(float rot) {
+		targetRotation = rot;
+	}
+
+	public void setScale(float sc) {
+		targetScale = sc;
+	}
+
+	public void setTranslation(PVector tr) {
+		targetTranslation = tr;
+	} 
+
+	private void updateTransforms() {
+		scale = lerp(scale, targetScale, controlTightness);
+		rotation = lerp(rotation, targetRotation, controlTightness);
+		translation = PVector.lerp(translation, targetTranslation, controlTightness);
 	}
 }

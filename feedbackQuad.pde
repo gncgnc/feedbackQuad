@@ -32,35 +32,25 @@ void setup(){
 void draw(){
 	if (debug) println("---------------------------------");
 	time = 1f*(frameCount)/numFrames;
-
-	pushMatrix();
-	translate(width*0.5, height*0.5);
-	fb.update();
-	popMatrix();
   	
-  	// input transformations 
-  	fb.scale = lerp(fb.scale, map(mouseX,0,width,0.707,1.005), 0.1);
-  	fb.rotation =  lerp(fb.rotation, map(mouseY, 0, height, -TAU/8, TAU/8), 0.1);	
-  	// fb.translation = new PVector(mouseX-width*0.5, mouseY-height*0.5).mult(0.1);
-  
-  String titleText = String.format(getClass().getName()+ "%6.2f fps", frameRate);
-  if (recording) {
-    videoExport.saveFrame();
-    fill(255,0,0);
-    ellipse(width*0.05, width*0.05, width*0.05, width*0.05); 
-     
-    vidFrameNum++;
-    
-    titleText += "\trecording --> ";
-    titleText += vidFrameNum/vidfps;    
-  }
-  
-  surface.setTitle(titleText);
-    
-    
+  	fb.setScale(map(mouseX,0,width,0.707,1.005));
+  	fb.setRotation(map(mouseY, 0, height, -TAU/8, TAU/8));	
+  	// fb.translation = new PVector(mouseX-width*0.5, mouseY-height*0.5).mult(0.1);  
+	fb.update();
 
-	// if (recording) saveFrame("frames/###"+getClass().getSimpleName()+".png");
-	// if (frameCount==numFrames && recording) exit();
+	String titleText = String.format(getClass().getName()+ "%6.2f fps", frameRate);
+	if (recording) {
+		videoExport.saveFrame();
+		fill(255,0,0);
+		ellipse(width*0.05, width*0.05, width*0.05, width*0.05); 
+		 
+		vidFrameNum++;
+
+		titleText += "\trecording --> ";
+		titleText += vidFrameNum/vidfps;    
+	}
+
+	surface.setTitle(titleText);
 }
 
 void keyPressed() {
