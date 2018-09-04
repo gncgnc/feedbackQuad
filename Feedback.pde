@@ -18,9 +18,9 @@ class Feedback {
 	float rotation = 0;
 	PVector translation = new PVector();
 
-	float targetRotation;
-	float targetScale;
-	float targetTranslation;
+	float targetScale = 0.9;
+	float targetRotation = 0;
+	PVector targetTranslation = new PVector();
 
 	// OPTIONS
 	boolean filtersOn = true;
