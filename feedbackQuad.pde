@@ -12,9 +12,16 @@ float time = 0;
 int numFrames = 30;
 
 Feedback fb;
+
 float rotation;
 float scale;
 PVector translation = new PVector();
+
+float MIN_SCALE = 0.707;
+float MAX_SCALE = 1.02;
+float MIN_ROT = -TAU/8;
+float MAX_ROT = TAU/8;
+float TRANSLATION_RANGE = 0.05;
 
 VideoExport videoExport;
 int vidfps = 30;
@@ -22,7 +29,7 @@ int recordfps = 15;
 int vidFrameNum = 0;
 
 OscP5 oscP5;
-
+int oscIncomingPort = 8000; // 8338; // for faceOSC
 
 
 void setup(){
@@ -38,7 +45,7 @@ void setup(){
 
 	frameRate(30);
 
-	oscP5 = new OscP5(this,8000);
+	oscP5 = new OscP5(this,8338);
 }
 
 void draw(){
@@ -46,8 +53,8 @@ void draw(){
 	time = 1f*(frameCount)/numFrames;
   	
   	if (mouseInput) {
-		scale = map(mouseX,0,width,0.707,1.005);
-		rotation = map(mouseY, 0, height, -TAU/8, TAU/8);   		
+		scale = 	map(mouseX, 0,  width, MIN_SCALE, MAX_SCALE);
+		rotation = 	map(mouseY, 0, height,   MIN_ROT, MAX_ROT);   		
 		translation = new PVector(0,0);
   	}
 
@@ -107,6 +114,10 @@ void keyPressed() {
 			mouseInput = !mouseInput;
 		break;
 
+		case 's': case 'S':
+			save("stills/feedback"+getTimestamp()+".png");
+		break;
+
 		// case 'x': case 'X':
 		// 	fb.sharpenAmount+=0.1;
 		//     println(fb.sharpenAmount);
@@ -124,11 +135,11 @@ String getTimestamp() {
   return df.format(new Date()); 
 }
 
-void captureEvent(Capture camera) {
-	float start = millis();
-	camera.read();
-	if (debug) println("captureEvent() --> "+(millis() - start)+"ms");
-}  
+// void captureEvent(Capture camera) {
+// 	float start = millis();
+// 	if (camera != null) camera.read();
+// 	if (debug) println("captureEvent() --> "+(millis() - start)+"ms");
+// }  
 
 void oscEvent(OscMessage theOscMessage) {  
 	if (!mouseInput) {
@@ -136,8 +147,8 @@ void oscEvent(OscMessage theOscMessage) {
 			if (theOscMessage.checkTypetag("ff")) {
 				float sc  = theOscMessage.get(0).floatValue();
 				float rot = theOscMessage.get(1).floatValue();
-				scale = (map(sc,0,1,0.707,1.005));
-				rotation = (map(rot, 0, 1, -TAU/8, TAU/8));	
+				scale = (map(sc, 0, 1, MIN_SCALE, MAX_SCALE));
+				rotation = (map(rot, 0, 1, MIN_ROT, MAX_ROT));	
 			}  
 		} 
 
@@ -147,7 +158,16 @@ void oscEvent(OscMessage theOscMessage) {
 				float y = theOscMessage.get(1).floatValue();
 				translation = new PVector(x,y).sub(new PVector(0.5,0.5)).mult(width*0.1);
 			}  
-		} 		
+		} 	
+
+		// with faceOSC
+		// if (theOscMessage.checkAddrPattern("/gesture/mouth/height")) {
+		// 	if (theOscMessage.checkTypetag("f")) {
+		// 		float h = theOscMessage.get(0).floatValue();
+		// 		scale = map(h,1,6,0.707,1.01);
+		// 	}  
+		// } 		
+
 	}
 
 	println("### received an osc message. with address pattern "+theOscMessage.addrPattern());

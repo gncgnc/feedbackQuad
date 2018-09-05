@@ -40,6 +40,7 @@ class Feedback {
 		papplet.imageMode(CENTER);
 		papplet.textureMode(NORMAL);
 		papplet.textureWrap(REPEAT);
+
 		makeQuad();
 		loadShaders();
 	}
@@ -72,12 +73,16 @@ class Feedback {
 		pushMatrix();
 		translate(width*0.5, height*0.5);
 
+		if (cam.available()) {
+			cam.read();
+		}
+		
 		// draw image in background
 		pushMatrix();
 		scale(-1.0, 1.0); // invert to make mirror
 		image(cam, 0, 0, 1f*width*cam.width/cam.height, height);			
-		popMatrix();
-
+		popMatrix();			
+		
 		// transforms are input from outside class
 		updateTransforms();
 

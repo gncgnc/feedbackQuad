@@ -2,25 +2,10 @@ current.txt
 
 output
 	need stills for Digilogue documentation 
-	x try VideoExport lib	
-		video output works for IG (set FPS to 30)
-		put on drive and download to upload to IG
-encapsulate
-	x just store vals for rot, scale, translation
-	3d transformation? 
-		can just add a rotateY
-	input transformations (somehow)
-	keep a transformation matrix internally
-		use applyMatrix? (it exists but says it's slow in p5 source)
-* try feedback in shader
-	- can result in speedup 
-	-  we won't be sending a texture to GPU each frame 
-	- new git branch
-	can do noise offsets and such
-	will be interesting with feedback  
+3d transformation? 
+	can just add a rotateY
 post process fedback image
 	* change kernel values on the fly?
-	* try postprocessing lib?
     feedback causes blur
     iterated application of internal processes gives rise to feedback character
     internal process is averaging of pixels -> blurring 
@@ -54,6 +39,8 @@ interaction!
 	less interesting interaction
 		webcam is also interaction
 		so maybe its not so bad
+map screen coord to uv
+	allows arbitrary feedback shapes
 
 ////////////////// DONE //////////////////
 	x add margin for better interaction
@@ -62,3 +49,16 @@ interaction!
 		results
 		blur sharpen cycle produces ~~interesting~~ results
 		buggy blur shader is beautiful with infinite zoom
+	x try feedback in shader
+		can result in speedup 
+		we won't be sending a texture to GPU each frame 
+		new git branch
+		can do noise offsets and such
+		will be interesting with feedback  
+		RESULTS: confusing and unexpected behaviour
+	x try VideoExport lib	
+		video output works for IG (set FPS to 30)
+		put on drive and download to upload to IG
+	x input transformations (somehow)
+	x just store vals for rot, scale, translation
+	x Regular OSC control
