@@ -28,6 +28,8 @@ class Feedback {
 	boolean glitchyBlurOn = true;
 
 	float margin = 0.1;
+	float targetMargin = 0.1;
+
 	float controlTightness = 0.1;
 
 	public Feedback (Capture cam, PApplet papplet) {
@@ -57,6 +59,7 @@ class Feedback {
 		papplet.imageMode(CENTER);
 		papplet.textureMode(NORMAL);
 		papplet.textureWrap(REPEAT);
+
 		makeQuad();
 		loadShaders();
 	}
@@ -83,8 +86,8 @@ class Feedback {
 		image(cam, 0, 0, 1f*width*cam.width/cam.height, height);			
 		popMatrix();			
 		
-		// transforms are input from outside class
-		updateTransforms();
+		// params are input from outside class
+		updateParams();
 
 		pushMatrix();
 		rotate(this.rotation);
@@ -131,7 +134,7 @@ class Feedback {
 		float start = millis();
 
 		float w = width*(0.5 - margin);
-		float m = margin;
+		float m = margin + 0.001;
 
 		s = createShape();
 		s.beginShape(QUAD);
@@ -151,7 +154,7 @@ class Feedback {
 
 		// OR
 		// uses texture sampling, which we are already doing 
-		s.texture(prev); // <-- could be bottleneck
+		s.texture(prev); // <-- could be bottleneck (no way around it)
 		s.vertex(-w, -w, 0, m	, m-1f	);
 		s.vertex(+w, -w, 0, 1f-m, m-1f	);
 		s.vertex(+w, +w, 0, 1f-m, -m	);
@@ -173,9 +176,15 @@ class Feedback {
 		targetTranslation = tr;
 	} 
 
-	private void updateTransforms() {
+	public void setMargin(float m) {
+		targetMargin = m;
+	}
+
+	private void updateParams() {
 		scale = lerp(scale, targetScale, controlTightness);
 		rotation = lerp(rotation, targetRotation, controlTightness);
 		translation = PVector.lerp(translation, targetTranslation, controlTightness);
+
+		margin = lerp(margin, targetMargin, controlTightness);
 	}
 }
