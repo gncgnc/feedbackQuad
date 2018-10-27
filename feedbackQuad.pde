@@ -1,12 +1,15 @@
+import processing.video.*;
 import com.hamoid.*;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import oscP5.*;
+import themidibus.*; 
 
 boolean recording = false;
 boolean debug = false;
-boolean mouseInput = false;
+boolean mouseInput = true;
 
 boolean animating = true;
 float lastInputTime = 0;
@@ -32,8 +35,12 @@ int vidfps = 30;
 int recordfps = 15;
 int vidFrameNum = 0;
 
+Capture cam;
+
 OscP5 oscP5;
 int oscIncomingPort = 8000; // 8338; // for faceOSC
+
+MidiBus bus;
 
 void setup(){
 	size(750,750, P3D);
@@ -41,7 +48,11 @@ void setup(){
 
 	noStroke();
 
-	fb = new Feedback(this);
+	// String[] cameras = Capture.list();
+	// printArray(cameras);
+	// cam = new Capture(this, cameras[59]);
+	// fb = new Feedback(cam, this);
+ 		fb = new Feedback(this);
 
 	videoExport = new VideoExport(this, "feedback"+getTimestamp()+".mp4");
 	videoExport.setFrameRate(vidfps);
@@ -49,6 +60,8 @@ void setup(){
 	frameRate(30);
 
 	oscP5 = new OscP5(this, oscIncomingPort);
+
+	bus = new MidiBus(this, 0, 3);
 }
 
 void draw(){
